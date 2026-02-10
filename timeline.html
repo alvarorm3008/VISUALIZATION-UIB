@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exoplanet Discoveries Timeline</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="space-background"></div>
+    <div id="overlay"></div>
+
+    <div id="splash-screen">
+      <h1 id="splash-title">Exoplanet Discoveries Timeline</h1>
+      <p id="splash-subtitle">
+        Explore planets with high Earth Similarity Index (ESI) discovered over
+        the years (full window for a better experience)
+      </p>
+      <button id="start-button">Begin Exploration</button>
+    </div>
+
+    <div class="container">
+      <div class="main-content">
+        <div id="timeline">
+          <div id="planet-card">
+            <div class="close-button">&times;</div>
+            <div class="planet-name">Planet Name</div>
+            <div class="planet-image-container">
+              <div class="planet-type"></div>
+              <canvas id="planet-canvas" width="180" height="180"></canvas>
+              <div class="card-shine"></div>
+            </div>
+
+            <div class="card-tabs">
+              <button class="tab-button active" data-tab="basic">Basic</button>
+              <button class="tab-button" data-tab="system">System</button>
+              <button class="tab-button" data-tab="orbit">Orbit</button>
+            </div>
+
+            <div class="tab-content" id="basic-tab">
+              <div class="planet-stats">
+                <div class="stat">
+                  <span class="stat-name">Discovery year</span>
+                  <span class="stat-value" id="disc-year">2000</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">ESI</span>
+                  <span class="stat-value" id="esi-value">0.00</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Radius</span>
+                  <span class="stat-value" id="radius-value">0.0 R⊕</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Mass</span>
+                  <span class="stat-value" id="mass-value">Unknown</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Temperature</span>
+                  <span class="stat-value" id="temp-value">Unknown</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Discovery facility</span>
+                  <span class="stat-value" id="facility-value">Unknown</span>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content hidden" id="system-tab">
+              <div class="planet-stats">
+                <div class="stat">
+                  <span class="stat-name">Host star</span>
+                  <span class="stat-value" id="hostname-value">Unknown</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Number of stars</span>
+                  <span class="stat-value" id="sysnum-value">Unknown</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Number of planets</span>
+                  <span class="stat-value" id="sypnum-value">Unknown</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Discovery reference</span>
+                  <span class="stat-value" id="refname-value">Unknown</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Distance</span>
+                  <span class="stat-value" id="distance-value">Unknown</span>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content hidden" id="orbit-tab">
+              <div class="planet-stats">
+                <div class="stat">
+                  <span class="stat-name">Orbital period</span>
+                  <span class="stat-value" id="orbper-value">Unknown</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-name">Semi-major axis</span>
+                  <span class="stat-value" id="orbsmax-value">Unknown</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+          <button id="prev" class="arrow-button">&larr;</button>
+          <button id="next" class="arrow-button">&rarr;</button>
+        </div>
+
+        <div class="content-container visible" id="scatter-container">
+          <div class="filter-panel">
+            <div class="filter-group">
+              <label for="year-range">Discovery Year Range:</label>
+              <div class="range-slider">
+                <span class="range-value" id="min-year-value">1990</span>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="min-year"
+                    class="range min-year"
+                    min="1990"
+                    max="2025"
+                    value="1990"
+                  />
+                  <input
+                    type="range"
+                    id="max-year"
+                    class="range max-year"
+                    min="1990"
+                    max="2025"
+                    value="2025"
+                  />
+                  <div class="slider-track"></div>
+                  <div class="slider-cap slider-cap-min"></div>
+                  <div class="slider-cap slider-cap-max"></div>
+                </div>
+                <span class="range-value" id="max-year-value">2025</span>
+              </div>
+            </div>
+
+            <div class="filter-group discovery-methods-group">
+              <label>Discovery Methods:</label>
+              <div
+                id="discovery-methods-container"
+                class="checkbox-container"
+              ></div>
+            </div>
+
+            <div class="filter-buttons">
+              <button id="apply-filters" class="filter-button">
+                Apply Filters
+              </button>
+              <button id="reset-filters" class="filter-button">Reset</button>
+              <button id="select-all-methods" class="filter-button">
+                Select All
+              </button>
+              <button id="deselect-all-methods" class="filter-button">
+                Deselect All
+              </button>
+            </div>
+          </div>
+          <div id="scatter-plot"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="timeline.js"></script>
+  </body>
+</html>
